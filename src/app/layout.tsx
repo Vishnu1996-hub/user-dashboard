@@ -6,7 +6,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
-  title: { default: 'UserDash', template: '%s — UserDash' },
+  title: { default: 'User Dashboard', template: '%s — User Dashboard' },
   description: 'Manage your team users efficiently.',
 }
 
