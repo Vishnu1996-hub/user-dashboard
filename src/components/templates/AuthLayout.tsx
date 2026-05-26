@@ -1,6 +1,6 @@
 'use client'
 import { LayoutDashboard, } from 'lucide-react'
-import { ThemeSwitcher } from '../shared/ThemeSwitcher'
+import { ThemeSwitcher } from '@/components/molecules/ThemeSwitcher'
 
 interface AuthLayoutProps {
   title: string
