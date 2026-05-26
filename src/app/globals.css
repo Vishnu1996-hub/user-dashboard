@@ -18,9 +18,15 @@
   --secondary: #f4f4f5;
   --secondary-foreground: #18181b;
 
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+
   --border: #e4e4e7;
 
   --danger: #dc2626;
+  --success: #16a34a;
+  --warning: #ca8a04;
+  --pending: #d97706;
 }
 
 /* =======================================================
@@ -41,9 +47,15 @@
   --secondary: #27272a;
   --secondary-foreground: #fafafa;
 
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+
   --border: #3f3f46;
 
   --danger: #ef4444;
+  --success: #4ade80;
+  --warning: #facc15;
+  --pending: #fbbf24;
 }
 
 /* =======================================================
@@ -64,9 +76,15 @@
   --secondary: #e0f2fe;
   --secondary-foreground: #082f49;
 
+  --muted: #e0f2fe;
+  --muted-foreground: #164e63;
+
   --border: #bae6fd;
 
   --danger: #dc2626;
+  --success: #16a34a;
+  --warning: #ca8a04;
+  --pending: #d97706;
 }
 
 /* =======================================================
@@ -87,9 +105,15 @@
   --secondary: #dcfce7;
   --secondary-foreground: #14532d;
 
+  --muted: #dcfce7;
+  --muted-foreground: #166534;
+
   --border: #bbf7d0;
 
   --danger: #dc2626;
+  --success: #16a34a;
+  --warning: #ca8a04;
+  --pending: #d97706;
 }
 
 /* =======================================================
@@ -110,9 +134,15 @@
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
 
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
   --color-border: var(--border);
 
   --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-pending: var(--pending);
 }
 
 /* =======================================================
