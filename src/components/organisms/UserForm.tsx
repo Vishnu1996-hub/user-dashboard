@@ -12,12 +12,25 @@ import { useCreateUser, useUpdateUser } from '@/hooks/useUsers'
 import type { User } from '@/types'
 
 interface UserFormProps {
+  /** When provided the form runs in edit mode and pre-fills the fields */
   user?: User
+  /**
+   * Called after a successful create or update.
+   * When provided (e.g. inside a modal) the form does NOT navigate away;
+   * the caller is responsible for closing the modal / updating the view.
+   * When omitted the form falls back to router navigation (page mode).
+   */
+  onSuccess?: () => void
+  /**
+   * Called when the user presses Cancel.
+   * When provided the form calls this instead of `router.back()`.
+   */
+  onCancel?: () => void
 }
 
-export function UserForm({ user }: UserFormProps) {
-  const router = useRouter()
-  const isEdit = Boolean(user)
+export function UserForm({ user, onSuccess, onCancel }: UserFormProps) {
+  const router  = useRouter()
+  const isEdit  = Boolean(user)
 
   const { mutateAsync: createUser } = useCreateUser()
   const { mutateAsync: updateUser } = useUpdateUser()
@@ -43,10 +56,26 @@ export function UserForm({ user }: UserFormProps) {
   const onSubmit = async (data: UserFormData) => {
     if (isEdit && user) {
       await updateUser({ id: user.id, ...data })
-      router.push(`/dashboard/users/${user.id}`)
+      if (onSuccess) {
+        onSuccess()
+      } else {
+        router.push(`/dashboard/users/${user.id}`)
+      }
     } else {
       const created = await createUser(data)
-      router.push(`/dashboard/users/${created.id}`)
+      if (onSuccess) {
+        onSuccess()
+      } else {
+        router.push(`/dashboard/users/${created.id}`)
+      }
+    }
+  }
+
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel()
+    } else {
+      router.back()
     }
   }
 
@@ -100,7 +129,7 @@ export function UserForm({ user }: UserFormProps) {
         <Button
           type="button"
           variant="ghost"
-          onClick={() => router.back()}
+          onClick={handleCancel}
           disabled={isSubmitting}
         >
           Cancel

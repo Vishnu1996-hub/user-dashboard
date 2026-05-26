@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowDownRight, ArrowUpRight, CreditCard, Package, ShoppingCart, TrendingUp } from 'lucide-react'
+import { ArrowDownRight, ArrowUpRight, DollarSign, Package, ShoppingCart, TrendingUp } from 'lucide-react'
 import { useAnalytics } from '@/hooks/useAnalytics'
 import { Skeleton } from '@/components/atoms/Skeleton'
 
@@ -15,45 +15,47 @@ function GrowthBadge({ value }: { value: number | null }) {
   )
 }
 
-export function KPISection() {
+export function AnalyticsKPIs() {
   const { data, isLoading } = useAnalytics()
+
+  if (isLoading) {
+    return (
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-36 rounded-3xl" />)}
+      </div>
+    )
+  }
 
   const kpis = data ? [
     {
       title:  'Total Revenue',
       value:  `$${data.totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
       growth: data.revenueGrowth,
-      icon:   CreditCard,
+      color:  'bg-primary/10 text-primary',
+      icon:   DollarSign,
     },
     {
       title:  'Total Orders',
-      value:  data.totalOrders.toLocaleString(),
+      value:  data.totalOrders.toString(),
       growth: data.orderGrowth,
+      color:  'bg-success/10 text-success',
       icon:   ShoppingCart,
     },
     {
       title:  'Avg Order Value',
       value:  `$${data.avgOrderValue.toFixed(2)}`,
       growth: data.avgOrderGrowth,
+      color:  'bg-warning/10 text-warning',
       icon:   TrendingUp,
     },
     {
       title:  'Active Products',
       value:  `${data.activeProducts} / ${data.totalProducts}`,
-      growth: null,
+      growth: null as number | null,
+      color:  'bg-blue-500/10 text-blue-500',
       icon:   Package,
     },
   ] : []
-
-  if (isLoading) {
-    return (
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <Skeleton key={i} className="h-36 rounded-3xl" />
-        ))}
-      </div>
-    )
-  }
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -66,7 +68,7 @@ export function KPISection() {
                 <p className="text-sm text-muted-foreground">{item.title}</p>
                 <h3 className="mt-3 text-3xl font-semibold tracking-tight">{item.value}</h3>
               </div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${item.color}`}>
                 <Icon size={22} />
               </div>
             </div>

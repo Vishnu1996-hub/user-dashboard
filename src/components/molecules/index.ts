@@ -1,3 +1,5 @@
 export * from './FormField'
 export * from './SearchInput'
 export * from './Pagination'
+export * from './Modal'
+export * from './ConfirmDialog'

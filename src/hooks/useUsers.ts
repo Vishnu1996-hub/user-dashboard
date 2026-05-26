@@ -60,7 +60,10 @@ export function useCreateUser() {
       if (!res.ok) throw new Error('Failed to create user')
       return res.json() as Promise<User>
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['users'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['users'] })
+      qc.invalidateQueries({ queryKey: ['analytics'] })
+    },
   })
 }
 
@@ -79,6 +82,7 @@ export function useUpdateUser() {
     onSuccess: (_, { id }) => {
       qc.invalidateQueries({ queryKey: ['users'] })
       qc.invalidateQueries({ queryKey: ['users', id] })
+      qc.invalidateQueries({ queryKey: ['analytics'] })
     },
   })
 }
@@ -90,6 +94,9 @@ export function useDeleteUser() {
       const res = await fetch(`/api/users/${id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error('Failed to delete user')
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['users'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['users'] })
+      qc.invalidateQueries({ queryKey: ['analytics'] })
+    },
   })
 }
