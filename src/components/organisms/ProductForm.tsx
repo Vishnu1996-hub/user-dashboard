@@ -55,8 +55,8 @@ export function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) 
       <FormField label="Description" placeholder="Brief product description…" required error={errors.description?.message} {...register('description')} />
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <FormField label="Price ($)" type="number" placeholder="29.99" required error={errors.price?.message} {...register('price')} />
-        <FormField label="Stock" type="number" placeholder="0" required error={errors.stock?.message} {...register('stock')} />
+        <FormField label="Price ($)" type="number" placeholder="29.99" required error={errors.price?.message} {...register('price', { valueAsNumber: true })} />
+        <FormField label="Stock" type="number" placeholder="0" required error={errors.stock?.message} {...register('stock', { valueAsNumber: true })} />
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
