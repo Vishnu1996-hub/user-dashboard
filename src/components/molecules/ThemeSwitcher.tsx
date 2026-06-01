@@ -23,8 +23,8 @@ import { themes } from '@/lib/themes'
 export type ThemePlacement = 'top' | 'bottom' | 'left' | 'right'
 
 const placementClasses: Record<ThemePlacement, string> = {
-  bottom: 'top-full right-0 mt-1.5',
-  top:    'bottom-full right-0 mb-1.5',
+  bottom: 'top-full left-0 mt-1.5',
+  top:    'bottom-full left-0 mb-1.5',
   left:   'right-full top-0 mr-1.5',
   right:  'left-full top-0 ml-1.5',
 }
@@ -70,7 +70,7 @@ export function ThemeSwitcher({
   const ActiveIcon = activeTheme.icon
 
   return (
-    <div className={cn('relative', className)}>
+    <div className={cn('relative inline-flex', className)}>
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}

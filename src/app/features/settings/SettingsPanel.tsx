@@ -30,7 +30,7 @@ function Section({
   children: React.ReactNode
 }) {
   return (
-    <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
+    <div className="overflow-visible rounded-3xl border border-border bg-card shadow-sm">
       <div className="flex items-center gap-4 border-b border-border p-6">
         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
           <Icon size={20} />
