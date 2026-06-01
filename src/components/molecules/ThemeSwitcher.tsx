@@ -19,14 +19,16 @@ import { themes } from '@/lib/themes'
  * | top            | above the button     | right edge of trigger |
  * | left           | left of the button   | top edge of trigger  |
  * | right          | right of the button  | top edge of trigger  |
+ * | bottomRight    | below the button     | right edge of trigger |
  */
-export type ThemePlacement = 'top' | 'bottom' | 'left' | 'right'
+export type ThemePlacement = 'top' | 'bottom' | 'left' | 'right' | 'bottomRight'
 
 const placementClasses: Record<ThemePlacement, string> = {
   bottom: 'top-full left-0 mt-1.5',
   top:    'bottom-full left-0 mb-1.5',
   left:   'right-full top-0 mr-1.5',
   right:  'left-full top-0 ml-1.5',
+  bottomRight: 'top-full right-0 mt-1.5',
 }
 
 interface ThemeSwitcherProps {

@@ -13,7 +13,7 @@ export function AuthLayout({ title, subtitle, children }: AuthLayoutProps) {
     <div className="relative flex min-h-screen items-center justify-center bg-background px-4">
 
   <div className="absolute right-4 top-4">
-    <ThemeSwitcher showLabel={true} />
+    <ThemeSwitcher showLabel={true} placement="bottomRight" />
   </div>
 
   <div className="w-full max-w-md rounded-xl border border-border bg-card p-8 shadow-card">
