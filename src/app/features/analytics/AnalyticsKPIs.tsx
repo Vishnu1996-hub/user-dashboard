@@ -9,7 +9,11 @@ function GrowthBadge({ value }: { value: number | null }) {
   const up = value >= 0
   return (
     <div className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${up ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>
-      {up ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
+      {up ? (
+        <ArrowUpRight size={12} aria-hidden="true" />
+      ) : (
+        <ArrowDownRight size={12} aria-hidden="true" />
+      )}
       {up ? '+' : ''}{value}%
     </div>
   )
@@ -66,10 +70,10 @@ export function AnalyticsKPIs() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">{item.title}</p>
-                <h3 className="mt-3 text-3xl font-semibold tracking-tight">{item.value}</h3>
+                <p className="mt-3 text-3xl font-semibold tracking-tight">{item.value}</p>
               </div>
               <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${item.color}`}>
-                <Icon size={22} />
+                <Icon size={22} aria-hidden="true" />
               </div>
             </div>
             <div className="mt-5 flex items-center gap-2">

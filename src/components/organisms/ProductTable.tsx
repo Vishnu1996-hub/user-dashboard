@@ -120,7 +120,7 @@ export function ProductTable() {
             <SearchInput value={search} onChange={handleSearch} placeholder="Search by name or SKU…" className="sm:w-64" />
             <div className="flex flex-wrap gap-2">
               {STATUS_FILTERS.map((s) => (
-                <button key={s} onClick={() => handleStatus(s)}
+                <button key={s} onClick={() => handleStatus(s)} aria-pressed={status === s}
                   className={cn('rounded-lg px-3 py-1.5 text-xs font-medium capitalize transition-colors',
                     status === s ? 'bg-primary text-primary-foreground' : 'border border-border hover:bg-secondary')}>
                   {s}
@@ -130,7 +130,7 @@ export function ProductTable() {
           </div>
           <div className="flex flex-wrap gap-2">
             {CATEGORY_FILTERS.map((c) => (
-              <button key={c} onClick={() => handleCategory(c)}
+              <button key={c} onClick={() => handleCategory(c)} aria-pressed={category === c}
                 className={cn('rounded-lg px-3 py-1.5 text-xs font-medium capitalize transition-colors',
                   category === c ? 'bg-secondary text-foreground ring-1 ring-border' : 'border border-border hover:bg-secondary')}>
                 {c}
@@ -142,6 +142,7 @@ export function ProductTable() {
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
+            <caption className="sr-only">Products with category, price, stock, status, and actions</caption>
             <thead>
               <tr className="border-b border-border text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 <th className="px-6 py-3">Product</th>
@@ -170,7 +171,7 @@ export function ProductTable() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                          <Package size={16} />
+                          <Package size={16} aria-hidden="true" />
                         </div>
                         <div>
                           <p className="font-medium leading-tight">{product.name}</p>
@@ -190,12 +191,12 @@ export function ProductTable() {
                       <div className="flex items-center justify-end gap-1">
                         <button onClick={() => setEditProduct(product)} aria-label={`Edit ${product.name}`}
                           className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground">
-                          <Edit2 size={15} />
+                          <Edit2 size={15} aria-hidden="true" />
                         </button>
                         <button onClick={() => setDeleteTarget({ id: product.id, name: product.name })} disabled={isDeleting}
                           aria-label={`Delete ${product.name}`}
                           className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-danger/10 hover:text-danger disabled:opacity-50">
-                          <Trash2 size={15} />
+                          <Trash2 size={15} aria-hidden="true" />
                         </button>
                       </div>
                     </td>

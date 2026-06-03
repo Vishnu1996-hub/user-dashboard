@@ -1,5 +1,5 @@
 {
-  "nextId": 23,
+  "nextId": 24,
   "items": [
     {
       "id": "4",
@@ -142,6 +142,13 @@
       "role": "admin",
       "status": "inactive",
       "id": "22"
+    },
+    {
+      "name": "Vishnu Kumar",
+      "email": "vishnu28496@gmail.com",
+      "role": "viewer",
+      "status": "active",
+      "id": "23"
     }
   ]
 }

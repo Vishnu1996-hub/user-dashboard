@@ -102,6 +102,7 @@ export function OrderTable() {
               <button
                 key={item}
                 onClick={() => handleStatus(item)}
+                aria-pressed={status === item}
                 className={cn(
                   'rounded-lg px-3 py-1.5 text-xs font-medium capitalize transition-colors',
                   status === item
@@ -117,6 +118,7 @@ export function OrderTable() {
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
+            <caption className="sr-only">Orders with customer, item count, total, status, and actions</caption>
             <thead>
               <tr className="border-b border-border text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 <th className="px-6 py-3">Order</th>
@@ -189,7 +191,7 @@ export function OrderTable() {
                           aria-label={`Delete ${order.orderNumber}`}
                           className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-danger/10 hover:text-danger disabled:opacity-50"
                         >
-                          <Trash2 size={15} />
+                          <Trash2 size={15} aria-hidden="true" />
                         </button>
                       </div>
                     </td>

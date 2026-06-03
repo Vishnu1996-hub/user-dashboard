@@ -13,10 +13,10 @@ export default function GlobalError({ error, reset }: ErrorProps) {
   }, [error])
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="text-center">
-        <p className="text-5xl font-bold text-danger">Oops!</p>
-        <h1 className="mt-4 text-xl font-semibold">Something went wrong</h1>
+    <main className="flex min-h-screen items-center justify-center bg-background px-4">
+      <section aria-labelledby="error-title" className="text-center">
+        <p className="text-5xl font-bold text-danger" aria-hidden="true">Oops!</p>
+        <h1 id="error-title" className="mt-4 text-xl font-semibold">Something went wrong</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           An unexpected error occurred. Please try again.
         </p>
@@ -26,7 +26,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
         >
           Try again
         </button>
-      </div>
-    </div>
+      </section>
+    </main>
   )
 }

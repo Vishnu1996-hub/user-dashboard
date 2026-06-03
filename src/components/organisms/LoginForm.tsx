@@ -80,6 +80,7 @@ export function LoginForm() {
     <form
       onSubmit={handleSubmit(onSubmit)}
       noValidate
+      aria-label="Sign in"
       className="flex flex-col gap-5"
     >
       {/* Auth-level error banner */}
@@ -123,7 +124,11 @@ export function LoginForm() {
             className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
             aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
-            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+            {showPassword ? (
+              <EyeOff size={16} aria-hidden="true" />
+            ) : (
+              <Eye size={16} aria-hidden="true" />
+            )}
           </button>
         </div>
         {errors.password && (
@@ -147,7 +152,7 @@ export function LoginForm() {
         className="w-full gap-2"
         size="lg"
       >
-        <LogIn size={16} />
+        <LogIn size={16} aria-hidden="true" />
         {isPending ? 'Signing in…' : 'Sign in'}
       </Button>
 
@@ -156,7 +161,7 @@ export function LoginForm() {
         className={cardStyles.container}
         suppressHydrationWarning
       >
-        <h3 className={cardStyles.title}>Demo Credentials</h3>
+        <h2 className={cardStyles.title}>Demo Credentials</h2>
         <div className="space-y-2.5">
           <div
             onClick={() => copyToClipboard(DEMO_CREDENTIALS.email, 'email')}
@@ -168,9 +173,9 @@ export function LoginForm() {
                 {DEMO_CREDENTIALS.email}
               </code>
               {copied === 'email' ? (
-                <Check size={14} className="text-green-600 dark:text-green-400" />
+                <Check size={14} className="text-green-600 dark:text-green-400" aria-hidden="true" />
               ) : (
-                <Copy size={14} className={cn('text-zinc-400', isDark ? 'dark:text-zinc-500' : 'text-primary-400')} />
+                <Copy size={14} className={cn('text-zinc-400', isDark ? 'dark:text-zinc-500' : 'text-primary-400')} aria-hidden="true" />
               )}
             </div>
           </div>
@@ -184,9 +189,9 @@ export function LoginForm() {
                 {DEMO_CREDENTIALS.password}
               </code>
               {copied === 'password' ? (
-                <Check size={14} className="text-green-600 dark:text-green-400" />
+                <Check size={14} className="text-green-600 dark:text-green-400" aria-hidden="true" />
               ) : (
-                <Copy size={14} className={cn('text-zinc-400', isDark ? 'dark:text-zinc-500' : 'text-primary-400')} />
+                <Copy size={14} className={cn('text-zinc-400', isDark ? 'dark:text-zinc-500' : 'text-primary-400')} aria-hidden="true" />
               )}
             </div>
           </div>

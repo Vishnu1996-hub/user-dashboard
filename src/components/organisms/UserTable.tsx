@@ -153,6 +153,7 @@ export function UserTable() {
               <button
                 key={s}
                 onClick={() => handleStatus(s)}
+                aria-pressed={status === s}
                 className={cn(
                   'rounded-lg px-3 py-1.5 text-xs font-medium capitalize transition-colors',
                   status === s
@@ -169,6 +170,7 @@ export function UserTable() {
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
+            <caption className="sr-only">Users with role, status, join date, and actions</caption>
             <thead>
               <tr className="border-b border-border text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 <th className="px-6 py-3">User</th>
@@ -236,7 +238,7 @@ export function UserTable() {
                           aria-label={`View ${user.name}`}
                           className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
                         >
-                          <Eye size={15} />
+                          <Eye size={15} aria-hidden="true" />
                         </Link>
 
                         {/* Edit — opens modal in-place */}
@@ -245,7 +247,7 @@ export function UserTable() {
                           aria-label={`Edit ${user.name}`}
                           className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
                         >
-                          <Edit2 size={15} />
+                          <Edit2 size={15} aria-hidden="true" />
                         </button>
 
                         {/* Delete — opens confirm dialog */}
@@ -255,7 +257,7 @@ export function UserTable() {
                           aria-label={`Delete ${user.name}`}
                           className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-danger/10 hover:text-danger disabled:opacity-50"
                         >
-                          <Trash2 size={15} />
+                          <Trash2 size={15} aria-hidden="true" />
                         </button>
                       </div>
                     </td>

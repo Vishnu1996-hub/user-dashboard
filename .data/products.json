@@ -1,5 +1,5 @@
 {
-  "nextId": 17,
+  "nextId": 18,
   "items": [
     {
       "id": "1",
@@ -175,6 +175,16 @@
       "stock": 50,
       "sku": "HOME-NEW",
       "id": "16"
+    },
+    {
+      "name": "Wireless Noise-Cancelling Headphones",
+      "description": "Wireless Noise-Cancelling Headphones",
+      "price": 199,
+      "category": "electronics",
+      "status": "active",
+      "stock": 10,
+      "sku": "ELEC-001",
+      "id": "17"
     }
   ]
 }
