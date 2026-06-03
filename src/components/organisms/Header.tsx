@@ -3,13 +3,8 @@
 import { memo, useMemo } from 'react'
 import { Bell, Menu, Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useAuthStore } from '@/store/useAuthStore'
 import { ThemeSwitcher } from '../molecules/ThemeSwitcher'
-
-const USER = {
-  initials: 'VK',
-  name: 'Vishnu Kumar',
-  role: 'Frontend Developer',
-} as const
 
 function BrandBlock({ date }: { date: string }) {
   return (
@@ -56,20 +51,32 @@ function NotificationButton() {
 }
 
 function UserButton() {
+  const user = useAuthStore((s) => s.user)
+
+  if (!user) return null
+
+  const initials = user.name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+
+  const roleLabel = user.role.charAt(0).toUpperCase() + user.role.slice(1)
+
   return (
     <button
-      aria-label={`User menu — ${USER.name}`}
+      aria-label={`User menu — ${user.name}`}
       className="flex items-center gap-3 rounded-2xl border border-border bg-card px-3 py-2 transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
     >
       <div
         aria-hidden="true"
         className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary text-sm font-semibold text-primary-foreground"
       >
-        {USER.initials}
+        {initials}
       </div>
       <div className="hidden text-left md:block">
-        <p className="text-sm font-medium leading-tight">{USER.name}</p>
-        <p className="text-xs text-muted-foreground leading-tight">{USER.role}</p>
+        <p className="text-sm font-medium leading-tight">{user.name}</p>
+        <p className="text-xs text-muted-foreground leading-tight">{roleLabel}</p>
       </div>
     </button>
   )
@@ -112,7 +119,7 @@ export const Header = memo(function Header({ onMenuClick, sidebarOpen }: HeaderP
             <Menu size={20} aria-hidden="true" />
           </button>
 
-          <BrandBlock date={currentDate} />
+          {/* <BrandBlock date={currentDate} /> */}
         </div>
 
         <div className="flex items-center gap-3">

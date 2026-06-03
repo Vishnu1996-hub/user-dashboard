@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { LogOut, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useLogout } from '@/hooks/useAuth'
 import { ThemeSwitcher } from '@/components/molecules/ThemeSwitcher'
 import { BRAND, NAV_ITEMS } from '@/lib/sidebare'
-import { useAuthStore } from '@/store/useAuthStore'
 
 // ─── Brand / header strip ────────────────────────────────────────────────────
 
@@ -75,27 +75,26 @@ function NavItem({
 // ─── Sign-out button ──────────────────────────────────────────────────────────
 
 function SidebarSignOut() {
-  const logout = useAuthStore((s) => s.logout)
+  const { mutate: logout, isPending } = useLogout()
 
   const handleLogout = () => {
     logout()
-    // Full-page redirect: clears all React/RSC state and forces the proxy
-    // to evaluate the cleared auth cookie before serving the login page.
-    window.location.href = '/login'
   }
 
   return (
     <div className="shrink-0 px-4 pb-2">
       <button
         onClick={handleLogout}
+        disabled={isPending}
         className={cn(
           'flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-colors',
           'text-danger hover:bg-danger/10',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-danger/40'
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-danger/40',
+          isPending && 'opacity-50 cursor-not-allowed'
         )}
       >
         <LogOut size={18} aria-hidden="true" />
-        Sign out
+        {isPending ? 'Signing out…' : 'Sign out'}
       </button>
     </div>
   )

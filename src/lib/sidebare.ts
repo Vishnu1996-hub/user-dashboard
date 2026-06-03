@@ -19,10 +19,10 @@
 
 import {
   LayoutDashboard,
-  Package,
-  Settings,
-  ShoppingCart,
-  TrendingUp,
+  // Package,
+  // Settings,
+  // ShoppingCart,
+  // TrendingUp,
   Users,
 } from 'lucide-react'
 
@@ -44,8 +44,8 @@ export interface NavItem {
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
   { label: 'Users',     icon: Users,           href: '/dashboard/users' },
-  { label: 'Orders',    icon: ShoppingCart,    href: '/dashboard/orders' },
-  { label: 'Products',  icon: Package,         href: '/dashboard/products' },
-  { label: 'Analytics', icon: TrendingUp,      href: '/dashboard/analytics' },
-  { label: 'Settings',  icon: Settings,        href: '/dashboard/settings' },
+  // { label: 'Orders',    icon: ShoppingCart,    href: '/dashboard/orders' },
+  // { label: 'Products',  icon: Package,         href: '/dashboard/products' },
+  // { label: 'Analytics', icon: TrendingUp,      href: '/dashboard/analytics' },
+  // { label: 'Settings',  icon: Settings,        href: '/dashboard/settings' },
 ]
