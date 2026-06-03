@@ -1,0 +1,180 @@
+{
+  "nextId": 17,
+  "items": [
+    {
+      "id": "1",
+      "name": "Wireless Noise-Cancelling Headphones",
+      "description": "Premium over-ear headphones with 30-hour battery life and active noise cancellation.",
+      "price": 299.99,
+      "category": "electronics",
+      "status": "active",
+      "stock": 142,
+      "sku": "ELEC-001",
+      "createdAt": "2024-01-15"
+    },
+    {
+      "id": "2",
+      "name": "Mechanical Gaming Keyboard",
+      "description": "RGB backlit mechanical keyboard with Cherry MX switches and anti-ghosting.",
+      "price": 149.99,
+      "category": "electronics",
+      "status": "active",
+      "stock": 87,
+      "sku": "ELEC-002",
+      "createdAt": "2024-01-22"
+    },
+    {
+      "id": "3",
+      "name": "Ultra-Wide Monitor 34",
+      "description": "34-inch curved ultrawide monitor, 3440×1440, 144Hz refresh rate.",
+      "price": 699,
+      "category": "electronics",
+      "status": "active",
+      "stock": 34,
+      "sku": "ELEC-003",
+      "createdAt": "2024-02-05"
+    },
+    {
+      "id": "4",
+      "name": "USB-C Hub 7-in-1",
+      "description": "Compact hub with HDMI, USB-A ×3, SD card, and PD charging pass-through.",
+      "price": 49.99,
+      "category": "electronics",
+      "status": "active",
+      "stock": 210,
+      "sku": "ELEC-004",
+      "createdAt": "2024-02-18"
+    },
+    {
+      "id": "5",
+      "name": "Ergonomic Office Chair",
+      "description": "Lumbar support, adjustable armrests and headrest, breathable mesh back.",
+      "price": 449,
+      "category": "home",
+      "status": "active",
+      "stock": 28,
+      "sku": "HOME-001",
+      "createdAt": "2024-03-02"
+    },
+    {
+      "id": "6",
+      "name": "Standing Desk Converter",
+      "description": "Height-adjustable desk riser that fits on any existing desk surface.",
+      "price": 189.99,
+      "category": "home",
+      "status": "active",
+      "stock": 55,
+      "sku": "HOME-002",
+      "createdAt": "2024-03-14"
+    },
+    {
+      "id": "7",
+      "name": "Merino Wool Crew Neck Sweater",
+      "description": "Classic crew-neck sweater in 100% merino wool. Machine washable.",
+      "price": 89.99,
+      "category": "clothing",
+      "status": "active",
+      "stock": 193,
+      "sku": "CLO-001",
+      "createdAt": "2024-04-01"
+    },
+    {
+      "id": "8",
+      "name": "Athletic Running Shorts",
+      "description": "Lightweight 4-inch running shorts with built-in liner and zippered pocket.",
+      "price": 38,
+      "category": "clothing",
+      "status": "active",
+      "stock": 310,
+      "sku": "CLO-002",
+      "createdAt": "2024-04-10"
+    },
+    {
+      "id": "9",
+      "name": "Yoga Mat Premium",
+      "description": "Eco-friendly, non-slip 6mm thick yoga mat with alignment lines.",
+      "price": 68,
+      "category": "sports",
+      "status": "active",
+      "stock": 175,
+      "sku": "SPO-001",
+      "createdAt": "2024-05-03"
+    },
+    {
+      "id": "10",
+      "name": "Adjustable Dumbbell Set",
+      "description": "Single dumbbell that adjusts from 5 to 52.5 lbs in 2.5-lb increments.",
+      "price": 349,
+      "category": "sports",
+      "status": "active",
+      "stock": 41,
+      "sku": "SPO-002",
+      "createdAt": "2024-05-20"
+    },
+    {
+      "id": "11",
+      "name": "The Art of Thinking Clearly",
+      "description": "Rolf Dobellis guide to 99 cognitive biases that affect our decisions.",
+      "price": 16.99,
+      "category": "books",
+      "status": "active",
+      "stock": 500,
+      "sku": "BOK-001",
+      "createdAt": "2024-06-01"
+    },
+    {
+      "id": "12",
+      "name": "Atomic Habits",
+      "description": "James Clears proven framework for building good habits and breaking bad ones.",
+      "price": 18.99,
+      "category": "books",
+      "status": "active",
+      "stock": 480,
+      "sku": "BOK-002",
+      "createdAt": "2024-06-08"
+    },
+    {
+      "id": "13",
+      "name": "Cold Brew Coffee Kit",
+      "description": "All-in-one cold brew system — glass carafe, stainless steel filter, lid.",
+      "price": 42,
+      "category": "food",
+      "status": "draft",
+      "stock": 0,
+      "sku": "FOD-001",
+      "createdAt": "2024-07-15"
+    },
+    {
+      "id": "14",
+      "name": "Portable Bluetooth Speaker",
+      "description": "Waterproof IPX7 speaker with 360° sound and 20-hour playtime.",
+      "price": 129.99,
+      "category": "electronics",
+      "status": "draft",
+      "stock": 0,
+      "sku": "ELEC-005",
+      "createdAt": "2024-08-02"
+    },
+    {
+      "id": "15",
+      "name": "Leather Laptop Bag 15",
+      "description": "Full-grain leather briefcase with padded laptop sleeve and multiple compartments.",
+      "price": 159,
+      "category": "clothing",
+      "status": "archived",
+      "stock": 0,
+      "sku": "CLO-003",
+      "createdAt": "2024-09-10"
+    },
+    {
+      "name": "New Widget",
+      "description": "A completely new widget.",
+      "price": 19.99,
+      "category": "home",
+      "status": "active",
+      "stock": 50,
+      "sku": "HOME-NEW",
+      "id": "16"
+    }
+  ]
+}
