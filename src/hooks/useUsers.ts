@@ -2,6 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type { User, UserStatus } from '@/types'
+import apiClient from '@/lib/api/client'
 
 export interface UserListParams {
   search?: string
@@ -18,15 +19,15 @@ export interface UserListResponse {
 }
 
 async function fetchUsers(params: UserListParams): Promise<UserListResponse> {
-  const sp = new URLSearchParams()
-  if (params.search) sp.set('search', params.search)
-  if (params.status) sp.set('status', params.status)
-  sp.set('page', String(params.page ?? 1))
-  sp.set('pageSize', String(params.pageSize ?? 8))
-
-  const res = await fetch(`/api/users?${sp}`)
-  if (!res.ok) throw new Error('Failed to fetch users')
-  return res.json()
+  const response = await apiClient.get<UserListResponse>('/api/users', {
+    params: {
+      search: params.search,
+      status: params.status,
+      page: params.page ?? 1,
+      pageSize: params.pageSize ?? 8,
+    },
+  })
+  return response.data
 }
 
 export function useUserList(params: UserListParams) {
@@ -40,9 +41,8 @@ export function useUser(id: string) {
   return useQuery<User>({
     queryKey: ['users', id],
     queryFn: async () => {
-      const res = await fetch(`/api/users/${id}`)
-      if (!res.ok) throw new Error('User not found')
-      return res.json()
+      const response = await apiClient.get<User>(`/api/users/${id}`)
+      return response.data
     },
     enabled: Boolean(id),
   })
@@ -52,13 +52,8 @@ export function useCreateUser() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async (data: Omit<User, 'id' | 'createdAt' | 'avatarUrl'>) => {
-      const res = await fetch('/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-      if (!res.ok) throw new Error('Failed to create user')
-      return res.json() as Promise<User>
+      const response = await apiClient.post<User>('/api/users', data)
+      return response.data
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['users'] })
@@ -71,13 +66,8 @@ export function useUpdateUser() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async ({ id, ...data }: Partial<User> & { id: string }) => {
-      const res = await fetch(`/api/users/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-      if (!res.ok) throw new Error('Failed to update user')
-      return res.json() as Promise<User>
+      const response = await apiClient.put<User>(`/api/users/${id}`, data)
+      return response.data
     },
     onSuccess: (_, { id }) => {
       qc.invalidateQueries({ queryKey: ['users'] })
@@ -91,8 +81,7 @@ export function useDeleteUser() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async (id: string) => {
-      const res = await fetch(`/api/users/${id}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('Failed to delete user')
+      await apiClient.delete(`/api/users/${id}`)
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['users'] })

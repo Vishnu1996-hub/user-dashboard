@@ -2,39 +2,41 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type { Product, ProductStatus, ProductCategory } from '@/types'
+import apiClient from '@/lib/api/client'
 
 export interface ProductListParams {
-  search?:   string
-  status?:   ProductStatus | 'all'
+  search?: string
+  status?: ProductStatus | 'all'
   category?: ProductCategory | 'all'
-  page?:     number
+  page?: number
   pageSize?: number
 }
 
 export interface ProductListResponse {
   products: Product[]
-  total:    number
-  page:     number
+  total: number
+  page: number
   pageSize: number
 }
 
 async function fetchProducts(params: ProductListParams): Promise<ProductListResponse> {
-  const sp = new URLSearchParams()
-  if (params.search)   sp.set('search',   params.search)
-  if (params.status)   sp.set('status',   params.status)
-  if (params.category) sp.set('category', params.category)
-  sp.set('page',     String(params.page     ?? 1))
-  sp.set('pageSize', String(params.pageSize ?? 8))
+  const response = await apiClient.get<ProductListResponse>('/api/products', {
+    params: {
+      search: params.search,
+      status: params.status,
+      category: params.category,
+      page: params.page ?? 1,
+      pageSize: params.pageSize ?? 8,
+    },
+  })
 
-  const res = await fetch(`/api/products?${sp}`)
-  if (!res.ok) throw new Error('Failed to fetch products')
-  return res.json()
+  return response.data
 }
 
 export function useProductList(params: ProductListParams) {
   return useQuery<ProductListResponse>({
     queryKey: ['products', 'list', params],
-    queryFn:  () => fetchProducts(params),
+    queryFn: () => fetchProducts(params),
   })
 }
 
@@ -42,13 +44,8 @@ export function useCreateProduct() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async (data: Omit<Product, 'id' | 'createdAt'>) => {
-      const res = await fetch('/api/products', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(data),
-      })
-      if (!res.ok) throw new Error('Failed to create product')
-      return res.json() as Promise<Product>
+      const response = await apiClient.post<Product>('/api/products', data)
+      return response.data
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['products'] })
@@ -61,13 +58,8 @@ export function useUpdateProduct() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async ({ id, ...data }: Partial<Product> & { id: string }) => {
-      const res = await fetch(`/api/products/${id}`, {
-        method:  'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(data),
-      })
-      if (!res.ok) throw new Error('Failed to update product')
-      return res.json() as Promise<Product>
+      const response = await apiClient.put<Product>(`/api/products/${id}`, data)
+      return response.data
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['products'] })
@@ -80,8 +72,7 @@ export function useDeleteProduct() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async (id: string) => {
-      const res = await fetch(`/api/products/${id}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('Failed to delete product')
+      await apiClient.delete(`/api/products/${id}`)
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['products'] })

@@ -2,11 +2,14 @@
 
 import { useQuery } from '@tanstack/react-query'
 import type { AnalyticsData } from '@/types'
+import apiClient from '@/lib/api/client'
 
 async function fetchAnalytics(months = 6): Promise<AnalyticsData> {
-  const res = await fetch(`/api/analytics?months=${months}`)
-  if (!res.ok) throw new Error('Failed to fetch analytics')
-  return res.json()
+  const response = await apiClient.get<AnalyticsData>('/api/analytics', {
+    params: { months },
+  })
+
+  return response.data
 }
 
 /**
