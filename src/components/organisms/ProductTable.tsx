@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { Edit2, Package, Plus, Trash2 } from 'lucide-react'
 import { Badge } from '@/components/atoms/Badge'
 import { Button } from '@/components/atoms/Button'
@@ -9,7 +10,6 @@ import { SearchInput } from '@/components/molecules/SearchInput'
 import { Pagination } from '@/components/molecules/Pagination'
 import { Modal } from '@/components/molecules/Modal'
 import { ConfirmDialog } from '@/components/molecules/ConfirmDialog'
-import { ProductForm } from '@/components/organisms/ProductForm'
 import { useProductList, useDeleteProduct } from '@/hooks/useProducts'
 import { useDebounce } from '@/hooks/useDebounce'
 import { cn } from '@/lib/utils'
@@ -20,6 +20,19 @@ const PAGE_SIZE = 8
 const STATUS_FILTERS: Array<ProductStatus | 'all'> = ['all', 'active', 'draft', 'archived']
 const CATEGORY_FILTERS: Array<ProductCategory | 'all'> = ['all', 'electronics', 'clothing', 'food', 'books', 'home', 'sports']
 
+const ProductForm = dynamic(
+  () => import('@/components/organisms/ProductForm').then((mod) => mod.ProductForm),
+  {
+    loading: () => (
+      <div className="flex flex-col gap-5">
+        {Array.from({ length: 7 }).map((_, i) => (
+          <Skeleton key={i} className="h-11 rounded-xl" />
+        ))}
+      </div>
+    ),
+  }
+)
+
 export function ProductTable() {
   const [search,   setSearch]   = useState('')
   const [status,   setStatus]   = useState<ProductStatus | 'all'>('all')
@@ -28,9 +41,20 @@ export function ProductTable() {
 
   const debouncedSearch = useDebounce(search, 300)
 
-  const handleSearch   = (v: string)                      => { setSearch(v);   setPage(1) }
-  const handleStatus   = (v: ProductStatus | 'all')       => { setStatus(v);   setPage(1) }
-  const handleCategory = (v: ProductCategory | 'all')     => { setCategory(v); setPage(1) }
+  const handleSearch = useCallback((v: string) => {
+    setSearch(v)
+    setPage(1)
+  }, [])
+
+  const handleStatus = useCallback((v: ProductStatus | 'all') => {
+    setStatus(v)
+    setPage(1)
+  }, [])
+
+  const handleCategory = useCallback((v: ProductCategory | 'all') => {
+    setCategory(v)
+    setPage(1)
+  }, [])
 
   const { data, isLoading, error } = useProductList({ search: debouncedSearch, status, category, page, pageSize: PAGE_SIZE })
 
@@ -41,27 +65,32 @@ export function ProductTable() {
 
   const { mutate: deleteProduct, isPending: isDeleting } = useDeleteProduct()
 
-  const handleConfirmDelete = () => {
+  const closeAddModal = useCallback(() => setAddOpen(false), [])
+  const closeEditModal = useCallback(() => setEditProduct(null), [])
+  const closeDeleteDialog = useCallback(() => setDeleteTarget(null), [])
+  const openAddModal = useCallback(() => setAddOpen(true), [])
+
+  const handleConfirmDelete = useCallback(() => {
     if (!deleteTarget) return
     deleteProduct(deleteTarget.id, { onSuccess: () => setDeleteTarget(null) })
-  }
+  }, [deleteProduct, deleteTarget])
 
   return (
     <>
       {/* Add modal */}
-      <Modal open={addOpen} onClose={() => setAddOpen(false)} title="Add Product" description="Add a new product to your catalogue." size="lg">
-        <ProductForm onSuccess={() => setAddOpen(false)} onCancel={() => setAddOpen(false)} />
+      <Modal open={addOpen} onClose={closeAddModal} title="Add Product" description="Add a new product to your catalogue." size="lg">
+        <ProductForm onSuccess={closeAddModal} onCancel={closeAddModal} />
       </Modal>
 
       {/* Edit modal */}
-      <Modal open={Boolean(editProduct)} onClose={() => setEditProduct(null)} title="Edit Product" description={editProduct ? `Update "${editProduct.name}".` : undefined} size="lg">
-        <ProductForm key={editProduct?.id} product={editProduct ?? undefined} onSuccess={() => setEditProduct(null)} onCancel={() => setEditProduct(null)} />
+      <Modal open={Boolean(editProduct)} onClose={closeEditModal} title="Edit Product" description={editProduct ? `Update "${editProduct.name}".` : undefined} size="lg">
+        <ProductForm key={editProduct?.id} product={editProduct ?? undefined} onSuccess={closeEditModal} onCancel={closeEditModal} />
       </Modal>
 
       {/* Delete confirm */}
       <ConfirmDialog
         open={Boolean(deleteTarget)}
-        onClose={() => setDeleteTarget(null)}
+        onClose={closeDeleteDialog}
         onConfirm={handleConfirmDelete}
         title={`Delete "${deleteTarget?.name}"?`}
         message="This product will be permanently removed from your catalogue."
@@ -80,7 +109,7 @@ export function ProductTable() {
               {data ? `${data.total} product${data.total !== 1 ? 's' : ''} total` : '—'}
             </p>
           </div>
-          <Button size="sm" onClick={() => setAddOpen(true)}>
+          <Button size="sm" onClick={openAddModal}>
             <Plus size={15} /> Add Product
           </Button>
         </div>

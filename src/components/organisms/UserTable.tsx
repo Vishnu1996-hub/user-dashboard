@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { Edit2, Eye, Plus, Trash2 } from 'lucide-react'
 import { Avatar } from '@/components/atoms/Avatar'
@@ -11,7 +12,6 @@ import { SearchInput } from '@/components/molecules/SearchInput'
 import { Pagination } from '@/components/molecules/Pagination'
 import { Modal } from '@/components/molecules/Modal'
 import { ConfirmDialog } from '@/components/molecules/ConfirmDialog'
-import { UserForm } from '@/components/organisms/UserForm'
 import { useDeleteUser, useUserList } from '@/hooks/useUsers'
 import { useDebounce } from '@/hooks/useDebounce'
 import { cn } from '@/lib/utils'
@@ -19,6 +19,19 @@ import type { User, UserStatus } from '@/types'
 
 const PAGE_SIZE = 8
 const STATUS_FILTERS = ['all', 'active', 'inactive', 'pending'] as const
+
+const UserForm = dynamic(
+  () => import('@/components/organisms/UserForm').then((mod) => mod.UserForm),
+  {
+    loading: () => (
+      <div className="flex flex-col gap-5">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <Skeleton key={i} className="h-11 rounded-xl" />
+        ))}
+      </div>
+    ),
+  }
+)
 
 export function UserTable() {
   // ── List / filter state ────────────────────────────────────────────────────
@@ -28,8 +41,15 @@ export function UserTable() {
 
   const debouncedSearch = useDebounce(search, 300)
 
-  const handleSearch = (val: string) => { setSearch(val); setPage(1) }
-  const handleStatus = (val: UserStatus | 'all') => { setStatus(val); setPage(1) }
+  const handleSearch = useCallback((val: string) => {
+    setSearch(val)
+    setPage(1)
+  }, [])
+
+  const handleStatus = useCallback((val: UserStatus | 'all') => {
+    setStatus(val)
+    setPage(1)
+  }, [])
 
   const { data, isLoading, error } = useUserList({
     search: debouncedSearch,
@@ -46,33 +66,38 @@ export function UserTable() {
   // ── Delete mutation ────────────────────────────────────────────────────────
   const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser()
 
-  const handleConfirmDelete = () => {
+  const closeAddModal = useCallback(() => setAddOpen(false), [])
+  const closeEditModal = useCallback(() => setEditUser(null), [])
+  const closeDeleteDialog = useCallback(() => setDeleteTarget(null), [])
+  const openAddModal = useCallback(() => setAddOpen(true), [])
+
+  const handleConfirmDelete = useCallback(() => {
     if (!deleteTarget) return
     deleteUser(deleteTarget.id, {
       onSuccess: () => setDeleteTarget(null),
     })
-  }
+  }, [deleteTarget, deleteUser])
 
   return (
     <>
       {/* ── Add User modal ────────────────────────────────────────────────── */}
       <Modal
         open={addOpen}
-        onClose={() => setAddOpen(false)}
+        onClose={closeAddModal}
         title="Add User"
         description="Create a new team member with role and access level."
         size="lg"
       >
         <UserForm
-          onSuccess={() => setAddOpen(false)}
-          onCancel={() => setAddOpen(false)}
+          onSuccess={closeAddModal}
+          onCancel={closeAddModal}
         />
       </Modal>
 
       {/* ── Edit User modal ───────────────────────────────────────────────── */}
       <Modal
         open={Boolean(editUser)}
-        onClose={() => setEditUser(null)}
+        onClose={closeEditModal}
         title="Edit User"
         description={editUser ? `Update ${editUser.name}'s details.` : undefined}
         size="lg"
@@ -81,15 +106,15 @@ export function UserTable() {
         <UserForm
           key={editUser?.id}
           user={editUser ?? undefined}
-          onSuccess={() => setEditUser(null)}
-          onCancel={() => setEditUser(null)}
+          onSuccess={closeEditModal}
+          onCancel={closeEditModal}
         />
       </Modal>
 
       {/* ── Delete confirm dialog ─────────────────────────────────────────── */}
       <ConfirmDialog
         open={Boolean(deleteTarget)}
-        onClose={() => setDeleteTarget(null)}
+        onClose={closeDeleteDialog}
         onConfirm={handleConfirmDelete}
         title={`Delete "${deleteTarget?.name}"?`}
         message="This action cannot be undone. The user will be permanently removed."
@@ -109,7 +134,7 @@ export function UserTable() {
               {data ? `${data.total} user${data.total !== 1 ? 's' : ''} total` : '—'}
             </p>
           </div>
-          <Button size="sm" onClick={() => setAddOpen(true)}>
+          <Button size="sm" onClick={openAddModal}>
             <Plus size={15} />
             Add User
           </Button>

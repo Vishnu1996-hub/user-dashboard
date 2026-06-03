@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import { DashboardLayout } from '@/components/templates/DashboardLayout'
-import { KPISection } from '../features/dashboard/KPISection'
-import { PerformanceChart } from '../features/dashboard/PerformanceChart'
-import { RecentActivity } from '../features/dashboard/RecentActivity'
+import { DashboardWidgets } from '../features/dashboard/DashboardWidgets'
 
 export const metadata: Metadata = {
   title: 'Dashboard',
@@ -12,14 +10,7 @@ export const metadata: Metadata = {
 export default function DashboardPage() {
   return (
     <DashboardLayout>
-      <div className="flex flex-col gap-6">
-        <KPISection />
-
-        <div className="grid gap-6 xl:grid-cols-[1.4fr_0.8fr]">
-          <PerformanceChart />
-          <RecentActivity />
-        </div>
-      </div>
+      <DashboardWidgets />
     </DashboardLayout>
   )
 }
