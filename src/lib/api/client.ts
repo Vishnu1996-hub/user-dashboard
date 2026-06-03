@@ -8,7 +8,7 @@ import axios, {
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
-  baseURL: typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000',
+  baseURL: '/',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
