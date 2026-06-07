@@ -36,7 +36,7 @@ export function Avatar({ name, src, size = 'md', className }: AvatarProps) {
   return (
     <div className={cn('relative flex shrink-0 items-center justify-center rounded-full overflow-hidden', sizes[size], className)}>
       {src ? (
-        <Image src={src} alt={name} fill sizes={imageSizes[size]} className="object-cover" />
+        <Image src={src} alt={name} fill sizes={imageSizes[size]} className="object-cover" priority />
       ) : (
         <span className={cn('flex h-full w-full items-center justify-center rounded-full font-medium text-white', getColor(name))}>
           {getInitials(name)}

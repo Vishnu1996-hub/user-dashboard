@@ -4,6 +4,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { QueryProvider } from '@/components/providers/QueryProvider'
 import { createMetadata, siteConfig } from '@/lib/seo'
+import { WebVitals } from '@/components/molecules/WebVitals'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} bg-background font-sans text-foreground`}>
+        <WebVitals />
         <ThemeProvider>
           <QueryProvider>{children}</QueryProvider>
         </ThemeProvider>
